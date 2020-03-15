@@ -1,0 +1,25 @@
+{
+  "extends": ["airbnb"],
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true,
+  },
+  "rules": {
+    "no-plusplus": "off",
+    "camelcase": "off",
+    "prefer-rest-params": "off",
+    "max-len": "off",
+    "no-unused-vars": "off",
+    "no-console": "off",
+    "no-restricted-syntax": "off",
+    "no-underscore-dangle": "off",
+    "global-require": 1,
+    "prefer-destructuring": 1,
+    "vars-on-top": 1,
+    "no-var": 1,
+    "import/no-extraneous-dependencies": 1,
+    "no-param-reassign": 1 
+
+  }
+}
