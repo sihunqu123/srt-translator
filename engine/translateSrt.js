@@ -9,8 +9,8 @@ const ts = require('./youdaoAPI');
 const SPLIT_mark = ' Baphomet. ';
 const MAX_RETRY_TIME = 5;
 
-const srtFile = '/media/sf_forshare/Re2.srt';
-const srtFileTranslated = '/media/sf_forshare/Re5.srt';
+const srtFile = '/media/sf_forshare/input.srt';
+const srtFileTranslated = '/media/sf_forshare/output.srt';
 
 const srtOrigin = fs.readFileSync(srtFile, {
   encoding: 'utf8',
