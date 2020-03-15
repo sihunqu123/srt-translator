@@ -7,6 +7,9 @@
   },
   "rules": {
     "no-plusplus": "off",
+    "no-continue": "off",
+    "no-useless-concat": "off",
+    "no-await-in-loop": "off",
     "camelcase": "off",
     "prefer-rest-params": "off",
     "max-len": "off",

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const exec = require('child_process').exec;
+const { exec } = require('child_process');
 
 // 翻译引擎
 const baidu = require('./engine/baidu');
@@ -18,23 +18,22 @@ const engine = { baidu, youdao, iciba };
 module.exports = (query, config) => {
   console.info('dsfa');
   console.info(query);
-  if(!query || !Array.isArray(query)) {
+  if (!query || !Array.isArray(query)) {
     console.error('parameter error');
     return;
   }
-  
-  if(query[0].endsWith('.mkv')) { // for mkv, need to extract english srt first
-  
-    const dir = exec("ls -la", function(err, stdout, stderr) {
+
+  if (query[0].endsWith('.mkv')) { // for mkv, need to extract english srt first
+    const dir = exec('ls -la', (err, stdout, stderr) => {
       if (err) {
-        // should have err.code here?  
+        // should have err.code here?
       }
       console.log(stdout);
     });
 
-    dir.on('exit', function (code) {
+    dir.on('exit', (code) => {
       // exit code is code
       console.log(`exit code is ${code}`);
     });
   }
-}
+};
