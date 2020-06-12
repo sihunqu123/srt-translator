@@ -10,8 +10,8 @@ const SPLIT_mark = ' Baphomet. ';
 const MAX_RETRY_TIME = 5;
 
 // const srtFile = '/media/sf_forshare/srake.srt';
-const srtFile = '/media/sf_output/官能時代絵巻_耳なし芳一 怨凌姫/官能時代絵巻 耳なし芳一 怨凌姫_interview_channel_2.srt';
-const srtFileTranslated = '/media/sf_output/output4.srt';
+const srtFile = '/media/sf_output/sake.srt';
+const srtFileTranslated = '/media/sf_forshare/output3.srt';
 
 const srtOrigin = fs.readFileSync(srtFile, {
   encoding: 'utf8',
@@ -26,14 +26,13 @@ const resultArr = [];
 
 // console.info(res);
 
-async function convert(lengthLimit = 300) {
-  let translateLengthLimit = lengthLimit;
+async function convert() {
   let tmpSrt = '';
   const tmpArr = [];
   while (currentIndex < length) {
     const srtObj = srtArr[currentIndex];
     const { text } = srtObj;
-    if (!text || text.startsWith('ts:')) { // if it's already translated, just skip
+    if (text.startsWith('ts:')) { // if it's already translated, just skip
       currentIndex++;
       continue;
     }
@@ -51,7 +50,7 @@ async function convert(lengthLimit = 300) {
     // refined the original text, single they change line even when it's very sort.
 //    srtObj.text = text.replace(/\n/g, ' . \\n ');
     srtObj.text = text.replace(/\n/g, ' '); // seems like we don't need the '.' between 2 lines
-    if (tmpSrt.length + strToAdd.length > translateLengthLimit) { // asume 100 is the translate length limit
+    if (tmpSrt.length + strToAdd.length > 400) { // asume 100 is the translate length limit
       break;
     }
     if (!srtObj.text) {
@@ -76,28 +75,21 @@ async function convert(lengthLimit = 300) {
     responseArr = resultStr
     //    .replace(/\? \?/g, '\n')
       .replace(/\\ n/g, ' \\n ')
-      // .split(/(?:[^a-z\dA-Z]{1}Baphomet。)+/i); // …Baphomet。     or   。Baphomet。
-      .split('baphomet'); // …Baphomet。     or   。Baphomet。
+      .split(/(?:[^a-z\dA-Z]{1}Baphomet。)+/); // …Baphomet。     or   。Baphomet。
 
     console.info(`responseArr.length: ${responseArr.length}, tmpArrlength: ${tmpArr.length}, retryTimes: ${retryTimes}, Max: ${MAX_RETRY_TIME}`);
     console.info(`the while should pass? : ${responseArr.length === 1 && tmpArr.length > 1}`);
   }
 
-  do {
+  await doTranslateStr();
+  while (responseArr.length === 1 && tmpArr.length > 1) { // which means translate failed
     if (retryTimes++ < MAX_RETRY_TIME) {
-      if(retryTimes > 1) {
-        console.info(`retry: ${retryTimes - 1}`);
-      }
-      try {
-        await doTranslateStr();
-      } catch(e) {
-        console.error(e);
-      }
+      console.info(`retry: ${retryTimes}`);
+      await doTranslateStr();
     } else {
-      currentIndex = currentIndex - tmpArr.length;
       throw new Error(`retry times exceed for string: ${tmpSrt}`);
     }
-  } while (responseArr && responseArr.length === 1 && tmpArr.length > 1) // which means translate failed
+  }
 
   let j = 0;
   for (let i = 0; i < tmpArr.length; i++) {
@@ -123,25 +115,7 @@ async function convertASrt() {
   // const promiseArr = [];
   while (currentIndex < length) {
     //  promiseArr.push(convert());
-    let retryTimes = 0;
-    let translateLengthLimit = 500;
-    console.info(`*(*****currentIndex: ${currentIndex}, length: ${length}, translateLengthLimit: ${translateLengthLimit}`);
-    while (true) {
-      if(retryTimes > 1) {
-        console.info(`=================retry: ${retryTimes - 1}`);
-      }
-      translateLengthLimit = translateLengthLimit > 100 ? (translateLengthLimit - 100) : 400;
-      console.info(`-----------translateLengthLimit: ${translateLengthLimit}`);
-      try {
-        await convert(translateLengthLimit);
-        break;
-      } catch(e) {
-        console.error(e);
-        if(retryTimes++ >= MAX_RETRY_TIME) {
-          throw new Error(`retry times exceed`);
-        }
-      }
-    }     
+    await convert();
   }
 
 

@@ -53,7 +53,7 @@ const queryYouDao = async function (query, config = config_default) {
           resolve(resData.translation[0]);
         } else {
           if (resData.errorCode === 30 && retryTimes++ < MAX_RETRY_LIMIT) { // need to retry
-            console.info(`query failed with errorCode 30, will retry: ${retryTimes}`);
+            console.info(`query failed with errorCode 30, will retry: ${retryTimes} for query: ${query}`);
             return queryOnce().then(resolve).catch(reject);
           }
           const errorMsg = `Got error when request: ${errorCode[resData.errorCode]}`;

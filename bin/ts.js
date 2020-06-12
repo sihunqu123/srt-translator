@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const program = require('commander');
+const { exec } = require('child_process');
 const fs = require("fs");
 const translate = require("../index.js");
 const path = require('path');
@@ -23,7 +24,31 @@ program
 
 // translate
 if (program.args.length > 0) {
-  translate(program.args, config);
+  const args = (program.args + '').split(/\s+/);
+  console.info(`args: ${args}`);
+  const source = args[0];
+  let inputFile = '';
+  let outputFile = '';
+  if(source.endsWith('.mkv')) { // need to extract srt from mkv file first
+    inputFile = source.replace(/\.mkv$/, '.srt');
+    
+    const dir = exec('ls -la', (err, stdout, stderr) => {
+      if (err) {
+        // should have err.code here?
+      }
+      console.log(stdout);
+    });
+
+    dir.on('exit', (code) => {
+      // exit code is code
+      console.log(`exit code is ${code}`);
+    });
+    
+  }
+//if() {
+//
+//}
+//translate(program.args, config);
 }
 
 // default
@@ -32,3 +57,4 @@ else {
 }
 
 
+// ./bin/ts.js   /media/sf_forshare/Return.to.House.on.Haunted.Hill.2007.重返猛鬼屋.mkv  sdfasd

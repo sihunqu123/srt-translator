@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-const { exec } = require('child_process');
-
 // 翻译引擎
 const baidu = require('./engine/baidu');
 const youdao = require('./engine/youdao');
@@ -24,16 +22,5 @@ module.exports = (query, config) => {
   }
 
   if (query[0].endsWith('.mkv')) { // for mkv, need to extract english srt first
-    const dir = exec('ls -la', (err, stdout, stderr) => {
-      if (err) {
-        // should have err.code here?
-      }
-      console.log(stdout);
-    });
-
-    dir.on('exit', (code) => {
-      // exit code is code
-      console.log(`exit code is ${code}`);
-    });
   }
 };
