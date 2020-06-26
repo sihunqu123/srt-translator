@@ -9,6 +9,7 @@
     "fix": "eslint --fix -c .eslintrc .",
     "testYoudao": "node engine/youdaoAPI.js",
     "srt": "node  engine/translateSrt.js",
+    "srtEn": "node  engine/translateSrt_en.js",
     "srtDebug": "node --inspect-brk=0.0.0.0:9229 engine/translateSrt.js"
   },
   "repository": {

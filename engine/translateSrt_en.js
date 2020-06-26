@@ -10,8 +10,9 @@ const SPLIT_mark = ' Baphomet. ';
 const MAX_RETRY_TIME = 5;
 
 // const srtFile = '/media/sf_forshare/srake.srt';
-const srtFile = '/media/sf_output/sake.srt';
-const srtFileTranslated = '/media/sf_forshare/output3.srt';
+const srtFile = '/media/sf_forshare/aa.srt';
+// const srtFile = '/media/sf_output/The.Witchmaker.1969.HANDJOB.mkv.srt';
+const srtFileTranslated = '/media/sf_forshare/output4.srt';
 
 const srtOrigin = fs.readFileSync(srtFile, {
   encoding: 'utf8',
